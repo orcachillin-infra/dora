@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "*.caddy": "caddyfile"
+    }
+}

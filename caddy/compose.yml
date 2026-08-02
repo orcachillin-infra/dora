@@ -1,0 +1,19 @@
+services:
+  caddy:
+    build: .
+    restart: unless-stopped
+    network_mode: host
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./config:/etc/caddy
+      - ./resources:/var/www
+      - /root/.secrets:/secrets:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

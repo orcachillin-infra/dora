@@ -1,0 +1,6 @@
+* {
+	handle_errors {
+		try_files /srv/www/errors/{err.status_code}.html /srv/www/errors/fallback.html
+		file_server
+	}
+}
