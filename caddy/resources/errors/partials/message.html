@@ -1,0 +1,11 @@
+{{- $status := index .Args 0 -}}
+{{- if eq $status "502" }}
+    <h1>502 - Error with downstream server</h1>
+    <p>
+        there's a bunch of stuff that could have caused this, but to be honest its likely because i turned the server
+        off due to my room getting too hot :p sorry <br><br> :(
+    </p>
+{{- else }}
+    <h1>{{ $status }} - whoops!</h1>
+    <p>theres an issue somewhere in our request chain. try again later?</p>
+{{- end }}

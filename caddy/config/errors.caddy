@@ -4,11 +4,13 @@
 		@error status 4xx 5xx
 		handle_response @error {
 			root * /var/www/errors
-			try_files /{resp.status_code}.html /fallback.html
+			vars error_status {resp.status_code}
+			rewrite * /error.html
 			header {
 				Content-Type "text/html; charset=utf-8"
 				-Content-Encoding
 			}
+			templates
 			file_server {
 				status {resp.status_code}
 			}
@@ -17,7 +19,9 @@
 
 	handle_errors 4xx 5xx {
 		root * /var/www/errors
-		try_files /{err.status_code}.html /fallback.html
+		vars error_status {err.status_code}
+		rewrite * /error.html
+		templates
 		file_server {
 			status {err.status_code}
 		}
