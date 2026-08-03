@@ -69,6 +69,10 @@ komodo.orcachill.in {
 	reverse_proxy 127.0.0.1:9120
 }
 
+vault.orcachill.in {
+	reverse_proxy 127.0.0.1:8080
+}
+
 prometheus.orcachill.in {
 	reverse_proxy amber.ntw.local:9090
 }
