@@ -1,5 +1,6 @@
 thighhighs.gay {
 	import cloudflare
+	import error_pages
 	root /var/www/thighhighs.gay/dist/client
 	file_server
 	reverse_proxy /.well-known/matrix/* amber.ntw.local:8448
@@ -7,6 +8,7 @@ thighhighs.gay {
 
 matrix.thighhighs.gay {
 	import cloudflare
+	import error_pages
 	request_body {
 		max_size 20MB
 	}
@@ -15,5 +17,6 @@ matrix.thighhighs.gay {
 
 komodo.thighhighs.gay {
 	import cloudflare
+	import error_pages
 	reverse_proxy amber.ntw.local:9120
 }

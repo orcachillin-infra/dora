@@ -1,5 +1,6 @@
 network.orcachill.in {
 	import desec
+	import error_pages
 
 	@grpc header Content-Type application/grpc*
 	reverse_proxy @grpc h2c://127.0.0.1:8081

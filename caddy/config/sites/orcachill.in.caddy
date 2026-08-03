@@ -4,6 +4,7 @@
 
 orcachill.in {
 	import desec
+	import error_pages
 	reverse_proxy luna.ntw.local:3002
 }
 
@@ -13,6 +14,7 @@ orcachill.in {
 
 static.orcachill.in {
 	import cors {header.origin}
+	import error_pages
 	root /var/www/static
 	file_server
 }
@@ -22,6 +24,7 @@ static.orcachill.in {
 ##
 
 stream.orcachill.in {
+	import error_pages
 	request_body {
 		max_size 100MB
 	}
@@ -29,35 +32,43 @@ stream.orcachill.in {
 	reverse_proxy shamu.ntw.local:8096
 }
 
-movies.orcachill.in {	
+movies.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:7878
 }
 
 tv.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:8989
 }
 
 anime.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:8990
 }
 
 tidarr.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:8484
 }
 
 music.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:4533
 }
 
 torrent.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:6500
 }
 
 prowlarr.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:9696
 }
 
 aio.orcachill.in {
+	import error_pages
 	reverse_proxy shamu.ntw.local:3600
 }
 
@@ -66,21 +77,26 @@ aio.orcachill.in {
 ##
 
 komodo.orcachill.in {
+	import error_pages
 	reverse_proxy 127.0.0.1:9120
 }
 
 vault.orcachill.in {
+	import error_pages
 	reverse_proxy 127.0.0.1:8080
 }
 
 prometheus.orcachill.in {
+	import error_pages
 	reverse_proxy amber.ntw.local:9090
 }
 
 grafana.orcachill.in {
+	import error_pages
 	reverse_proxy amber.ntw.local:3000
 }
 panel.orcachill.in {
+	import error_pages
 	reverse_proxy 127.0.0.1:8080
 }
 
@@ -90,10 +106,12 @@ panel.orcachill.in {
 ##
 
 ha.orcachill.in {
+	import error_pages
 	reverse_proxy ha.host.internal:8123
 }
 
 tasks.orcachill.in {
+	import error_pages
     reverse_proxy 127.0.0.1:3456
 }
 
@@ -102,6 +120,7 @@ tasks.orcachill.in {
 ###
 
 photos.orcachill.in {
+	import error_pages
     reverse_proxy shamu.ntw.local:2283
 }
 
@@ -110,5 +129,6 @@ photos.orcachill.in {
 ###
 
 demo.orcachill.in {
+	import error_pages
     reverse_proxy shamu.ntw.local:3000
 }
