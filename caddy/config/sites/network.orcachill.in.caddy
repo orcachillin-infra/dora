@@ -8,5 +8,11 @@ network.orcachill.in {
 	@backend path /relay* /ws-proxy/* /api/* /oauth2/*
 	reverse_proxy @backend 127.0.0.1:8081
 
+	@dashboard_auth path /nb-auth /nb-silent-auth
+	reverse_proxy @dashboard_auth 127.0.0.1:8082 {
+		@not_found status 404
+		replace_status @not_found 200
+	}
+
 	reverse_proxy 127.0.0.1:8082
 }
