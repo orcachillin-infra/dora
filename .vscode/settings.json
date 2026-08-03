@@ -1,5 +1,6 @@
 {
-    "files.associations": {
-        "*.caddy": "caddyfile"
-    }
+	"files.associations": {
+		"*.caddy": "caddyfile"
+	},
+	"editor.formatOnSave": false
 }

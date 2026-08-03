@@ -1,15 +1,21 @@
 {{- $status := placeholder "http.vars.error_status" -}}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $status }} | uh oh...</title>
     <style>
-{{ include "partials/styles.css" }}
+{{include "partials/styles.css"}}
     </style>
 </head>
+
 <body>
-{{ include "partials/message.html" $status }}
+    <h1>
+        <span class="logo">orcachill.in</span>
+    </h1>
+    {{ include "partials/message.html" $status }}
 </body>
+
 </html>
