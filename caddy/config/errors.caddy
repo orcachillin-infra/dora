@@ -17,7 +17,8 @@
 		}
 	}
 
-	handle_errors 4xx 5xx {
+	# handle_errors 4xx 5xx {
+	handle_errors 5xx {
 		root * /var/www/errors
 		vars error_status {err.status_code}
 		rewrite * /error.html
