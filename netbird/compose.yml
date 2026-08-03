@@ -1,0 +1,41 @@
+services:
+  dashboard:
+    image: docker.io/netbirdio/dashboard:v2.90.9@sha256:36d8def3f9aa34d986e234e8e2b262cebe8d025f3f8698482812f480cacfe106
+    container_name: netbird-dashboard
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "127.0.0.1:8082:80"
+    environment:
+      NETBIRD_MGMT_API_ENDPOINT: https://network.orcachill.in
+      NETBIRD_MGMT_GRPC_API_ENDPOINT: https://network.orcachill.in
+      AUTH_AUDIENCE: netbird-dashboard
+      AUTH_CLIENT_ID: netbird-dashboard
+      AUTH_CLIENT_SECRET: ""
+      AUTH_AUTHORITY: https://network.orcachill.in/oauth2
+      USE_AUTH0: "false"
+      AUTH_SUPPORTED_SCOPES: openid profile email groups
+      AUTH_REDIRECT_URI: /nb-auth
+      AUTH_SILENT_REDIRECT_URI: /nb-silent-auth
+      NGINX_SSL_PORT: "443"
+      LETSENCRYPT_DOMAIN: none
+
+  netbird-server:
+    image: docker.io/netbirdio/netbird-server:0.76.0@sha256:3f08491f06864ba69bd6f596e99bb98647023b79edbcd0352ed928c899fd267a
+    container_name: netbird-server
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      NB_PEER_UPDATE_INTERVAL_MS: "100"
+      NB_PEER_UPDATE_STARTUP_PERIOD_S: "1"
+    ports:
+      - "127.0.0.1:8081:80"
+      - "3478:3478/udp"
+    volumes:
+      - /var/lib/netbird/data:/var/lib/netbird
+      - /var/lib/netbird/config.yaml:/etc/netbird/config.yaml:ro
+    command:
+      - --config
+      - /etc/netbird/config.yaml

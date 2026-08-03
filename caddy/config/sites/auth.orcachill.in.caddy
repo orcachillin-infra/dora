@@ -1,0 +1,9 @@
+auth.orcachill.in {
+	import desec
+	reverse_proxy https://127.0.0.1:7070 {
+		transport http {
+			tls_trust_pool file /etc/caddy/pki/kanidm-backend-ca.pem
+			tls_server_name auth.orcachill.in
+		}
+	}
+}

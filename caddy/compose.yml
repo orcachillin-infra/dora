@@ -10,7 +10,7 @@ services:
     volumes:
       - ./config:/etc/caddy
       - ./resources:/var/www
-      - /root/.secrets:/secrets:ro
+      - /var/lib/infisical-agent/rendered/caddy:/secrets:ro
       - caddy_data:/data
       - caddy_config:/config
 

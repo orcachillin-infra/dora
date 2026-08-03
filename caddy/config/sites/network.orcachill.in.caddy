@@ -1,0 +1,11 @@
+network.orcachill.in {
+	import desec
+
+	@grpc header Content-Type application/grpc*
+	reverse_proxy @grpc h2c://127.0.0.1:8081
+
+	@backend path /relay* /ws-proxy/* /api/* /oauth2/*
+	reverse_proxy @backend 127.0.0.1:8081
+
+	reverse_proxy 127.0.0.1:8082
+}
