@@ -1,3 +1,7 @@
+*.orcachill.in {
+	import desec
+}
+
 ##
 ##  Media Server
 ##
