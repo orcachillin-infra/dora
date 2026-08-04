@@ -48,10 +48,10 @@ torrent.orcachill.in {
 
 prowlarr.orcachill.in {
 	import error_pages
-	reverse_proxy shamu.network.orcachill.in:9696
+	reverse_proxy orkid.network.orcachill.in:9696
 }
 
 aio.orcachill.in {
 	import error_pages
-	reverse_proxy shamu.network.orcachill.in:3600
+	reverse_proxy orkid.network.orcachill.in:3600
 }
