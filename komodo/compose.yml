@@ -41,6 +41,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
+      - /var/lib/infisical-agent/rendered:/var/lib/infisical-agent/rendered:ro
 
 volumes:
   mongo-data:
