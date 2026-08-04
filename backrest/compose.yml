@@ -1,0 +1,29 @@
+services:
+  backrest:
+    image: ghcr.io/garethgeorge/backrest@sha256:b852979754281026230cc69fb11428e6d57c9a97784ab4a444ffc7934c53a215
+    container_name: backrest-dora
+    hostname: dora
+    restart: unless-stopped
+    env_file:
+      - /var/lib/infisical-agent/rendered/backrest/backrest.env
+    environment:
+      BACKREST_DATA: /data
+      BACKREST_CONFIG: /config/config.json
+      XDG_CACHE_HOME: /cache
+      TMPDIR: /tmp
+      TZ: Etc/UTC
+    ports:
+      - "127.0.0.1:9898:9898"
+    volumes:
+      - /var/lib/backrest-dora/data:/data
+      - /var/lib/backrest-dora/config:/config
+      - /var/lib/backrest-dora/cache:/cache
+      - /var/lib/backrest-dora/tmp:/tmp
+      - /var/lib/backrest-dora/staging:/staging:ro
+      - ./check-snapshot.sh:/hooks/check-snapshot.sh:ro
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:9898/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

@@ -1,0 +1,10 @@
+[Unit]
+Description=Create the daily Dora backup snapshot
+
+[Timer]
+OnCalendar=*-*-* 02:30:00 UTC
+Persistent=true
+Unit=backrest-snapshot.service
+
+[Install]
+WantedBy=timers.target

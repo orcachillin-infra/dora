@@ -1,0 +1,15 @@
+[Unit]
+Description=Create an application-consistent Dora backup snapshot
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+UMask=0077
+ExecStart=/usr/local/sbin/prepare-dora-backup
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=read-only
+ProtectSystem=strict
+ReadWritePaths=/var/lib/backrest-dora/staging
