@@ -12,7 +12,6 @@ static.orcachill.in {
 ## Netbird
 
 network.orcachill.in {
-	import desec
 	import error_pages
 
 	@grpc header Content-Type application/grpc*
@@ -33,7 +32,6 @@ network.orcachill.in {
 ## Core management
 
 auth.orcachill.in {
-	import desec
 	reverse_proxy https://127.0.0.1:7070 {
 		transport http {
 			tls_trust_pool file /etc/caddy/pki/kanidm-backend-ca.pem
@@ -43,11 +41,9 @@ auth.orcachill.in {
 }
 
 komodo.orcachill.in {
-	import desec
 	reverse_proxy 127.0.0.1:9120
 }
 
 vault.orcachill.in {
-	import desec
 	reverse_proxy 127.0.0.1:8080
 }

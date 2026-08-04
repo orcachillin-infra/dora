@@ -1,0 +1,3 @@
+*.orcachill.in {
+	import desec
+}
