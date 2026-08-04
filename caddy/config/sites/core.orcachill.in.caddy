@@ -47,3 +47,8 @@ komodo.orcachill.in {
 vault.orcachill.in {
 	reverse_proxy 127.0.0.1:8080
 }
+
+backups.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:9898
+}
