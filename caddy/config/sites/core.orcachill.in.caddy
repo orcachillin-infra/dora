@@ -49,6 +49,5 @@ vault.orcachill.in {
 }
 
 backups.orcachill.in {
-	import error_pages
 	reverse_proxy orkid.network.orcachill.in:9898
 }
