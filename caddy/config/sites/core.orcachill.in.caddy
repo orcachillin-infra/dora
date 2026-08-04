@@ -1,0 +1,53 @@
+##
+## Static
+##
+
+static.orcachill.in {
+	import cors {header.origin}
+	import error_pages
+	root /var/www/static
+	file_server
+}
+
+## Netbird
+
+network.orcachill.in {
+	import desec
+	import error_pages
+
+	@grpc header Content-Type application/grpc*
+	reverse_proxy @grpc h2c://127.0.0.1:8081
+
+	@backend path /relay* /ws-proxy/* /api/* /oauth2/*
+	reverse_proxy @backend 127.0.0.1:8081
+
+	@dashboard_auth path /nb-auth /nb-silent-auth
+	reverse_proxy @dashboard_auth 127.0.0.1:8082 {
+		@not_found status 404
+		replace_status @not_found 200
+	}
+
+	reverse_proxy 127.0.0.1:8082
+}
+
+## Core management
+
+auth.orcachill.in {
+	import desec
+	reverse_proxy https://127.0.0.1:7070 {
+		transport http {
+			tls_trust_pool file /etc/caddy/pki/kanidm-backend-ca.pem
+			tls_server_name auth.orcachill.in
+		}
+	}
+}
+
+komodo.orcachill.in {
+	import desec
+	reverse_proxy 127.0.0.1:9120
+}
+
+vault.orcachill.in {
+	import desec
+	reverse_proxy 127.0.0.1:8080
+}

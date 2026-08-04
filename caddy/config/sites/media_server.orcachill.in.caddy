@@ -1,0 +1,57 @@
+##
+##  Media Server
+##
+
+stream.orcachill.in {
+	import error_pages
+	request_body {
+		max_size 100MB
+	}
+	
+	reverse_proxy shamu.network.orcachill.in:8096
+}
+
+movies.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:7878
+}
+
+tv.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:8989
+}
+
+anime.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:8990
+}
+
+catalog.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:5055
+}
+
+tidarr.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:8484
+}
+
+music.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:4533
+}
+
+torrent.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:6500
+}
+
+prowlarr.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:9696
+}
+
+aio.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:3600
+}
