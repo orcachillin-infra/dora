@@ -1,0 +1,32 @@
+infisical:
+  address: "http://127.0.0.1:8080"
+
+auth:
+  type: "universal-auth"
+  config:
+    client-id: "/etc/infisical-agent/client-id"
+    client-secret: "/etc/infisical-agent/client-secret"
+    remove_client_secret_on_read: false
+
+templates:
+  - destination-path: "/var/lib/infisical-agent/rendered/caddy/cloudflare_account_token"
+    template-content: '{{ with getSecretByName "278b780d-2529-400d-8c7b-925d03a1db77" "prod" "/caddy" "CLOUDFLARE_API_TOKEN" }}{{ .Value }}{{ end }}'
+    config:
+      polling-interval: 60s
+
+  - destination-path: "/var/lib/infisical-agent/rendered/caddy/desec_api_token"
+    template-content: '{{ with getSecretByName "278b780d-2529-400d-8c7b-925d03a1db77" "prod" "/caddy" "DESEC_API_TOKEN" }}{{ .Value }}{{ end }}'
+    config:
+      polling-interval: 60s
+
+  - destination-path: "/var/lib/infisical-agent/rendered/komodo/core.config.toml"
+    template-content: |
+      {{ with getSecretByName "278b780d-2529-400d-8c7b-925d03a1db77" "prod" "/komodo" "GITHUB_PAT" }}[[git_provider]]
+      domain = "github.com"
+      https = true
+      accounts = [
+        { username = "orcachillin", token = "{{ .Value }}" },
+      ]
+      {{ end }}
+    config:
+      polling-interval: 60s
