@@ -47,6 +47,11 @@ anime.orcachill.in {
 	reverse_proxy shamu.network.orcachill.in:8990
 }
 
+catalog.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:5055
+}
+
 tidarr.orcachill.in {
 	import error_pages
 	reverse_proxy shamu.network.orcachill.in:8484
