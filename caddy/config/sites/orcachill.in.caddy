@@ -46,6 +46,11 @@ photos.orcachill.in {
     reverse_proxy shamu.network.orcachill.in:2283
 }
 
+pizza.orcachill.in {
+	import error_pages
+    reverse_proxy orkid.network.orcachill.in:3000
+}
+
 ###
 ### Testing
 ###
