@@ -24,9 +24,14 @@ install -d -m 700 \
   "$next/komodo/keys" \
   "$next/backrest"
 
-for container in komodo-mongo-1 infisical-db kanidm; do
+for container in komodo-mongo-1 infisical-db; do
   test "$(docker --remote inspect -f '{{.State.Running}}' "$container")" = true
 done
+
+kanidm_backups=(/var/lib/kanidm/backups/backup-*.json.gz)
+test -e "${kanidm_backups[0]}"
+latest_kanidm_backup=${kanidm_backups[${#kanidm_backups[@]} - 1]}
+test "$(( $(date +%s) - $(stat -c %Y "$latest_kanidm_backup") ))" -le 172800
 
 set -a
 . /root/komodo/compose.env
