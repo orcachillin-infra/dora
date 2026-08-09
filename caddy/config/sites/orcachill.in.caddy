@@ -10,12 +10,11 @@ orcachill.in {
 
 prometheus.orcachill.in {
 	import error_pages
-	reverse_proxy amber.ntw.local:9090
+	reverse_proxy orkid.network.orcachill.in:9090
 }
-
 grafana.orcachill.in {
 	import error_pages
-	reverse_proxy amber.ntw.local:3000
+	reverse_proxy orkid.network.orcachill.in:3100
 }
 panel.orcachill.in {
 	import error_pages
