@@ -4,6 +4,7 @@ services:
     restart: unless-stopped
     network_mode: host
     extra_hosts:
+      - "ha.host.internal:10.0.0.3"
       - "shamu.network.orcachill.in:100.114.66.30"
       - "orkid.network.orcachill.in:100.114.67.239"
     ports:
