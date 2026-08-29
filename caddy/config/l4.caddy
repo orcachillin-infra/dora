@@ -1,5 +1,7 @@
 # Layer 4 TCP proxy: Forgejo SSH on git.orcachill.in:2222 -> orkid over netbird
-:2222 {
-	protocol tcp
-	proxy orkid.network.orcachill.in:2222
+
+layer4 {
+	:2222 {
+		proxy tcp/orkid.network.orcachill.in:2222
+	}
 }
