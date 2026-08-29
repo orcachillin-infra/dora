@@ -2,6 +2,9 @@
 
 & layer4 {
 	:2222 {
-		proxy tcp/orkid.network.orcachill.in:2222
+		@inbound remote_ip 0.0.0.0/0
+		route @inbound {
+			proxy tcp/orkid.network.orcachill.in:2222
+		}
 	}
 }
