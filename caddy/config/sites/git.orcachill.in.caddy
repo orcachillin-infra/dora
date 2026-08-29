@@ -1,0 +1,8 @@
+##
+## Git hosting (Forgejo on Orkid)
+##
+
+git.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:3000
+}

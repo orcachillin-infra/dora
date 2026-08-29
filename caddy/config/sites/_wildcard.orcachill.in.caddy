@@ -1,3 +1,12 @@
 *.orcachill.in {
 	import desec
+
+	@not_found {
+		not path /favicon.ico
+	}
+	handle_errors {
+		respond "no route for {host}" 404
+	}
+
+	respond "no route for {host}" 404
 }
