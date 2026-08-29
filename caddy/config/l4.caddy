@@ -1,12 +1,11 @@
 # Layer 4 TCP proxy: Forgejo SSH on git.orcachill.in:2222 -> orkid over netbird
+# imported into the global options block via the main Caddyfile
 
-{
-	layer4 {
-		:2222 {
-			route {
-				proxy {
-					to orkid.network.orcachill.in:2222
-				}
+layer4 {
+	:2222 {
+		route {
+			proxy {
+				to orkid.network.orcachill.in:2222
 			}
 		}
 	}

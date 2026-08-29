@@ -22,6 +22,15 @@
 		protocols h1 h2c h2 h3
 		trusted_proxies cloudflare
 	}
+	layer4 {
+		:2222 {
+			route {
+				proxy {
+					to orkid.network.orcachill.in:2222
+				}
+			}
+		}
+	}
 }
 
 
@@ -46,4 +55,3 @@
 
 import errors.caddy
 import sites/*.caddy
-import l4.caddy
