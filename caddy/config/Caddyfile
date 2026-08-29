@@ -25,9 +25,7 @@
 	layer4 {
 		:2222 {
 			route {
-				proxy {
-					to orkid.network.orcachill.in:2222
-				}
+				proxy to orkid.network.orcachill.in:2222
 			}
 		}
 	}
