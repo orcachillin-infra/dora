@@ -1,0 +1,8 @@
+##
+## Radicale (CalDAV/CardDAV on Orkid)
+##
+
+calendar.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:5232
+}
