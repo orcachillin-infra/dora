@@ -60,3 +60,8 @@ plex.orcachill.in {
 	import error_pages
 	reverse_proxy shamu.network.orcachill.in:32400
 }
+
+search.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:5992
+}
