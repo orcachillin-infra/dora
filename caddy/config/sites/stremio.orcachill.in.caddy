@@ -1,0 +1,15 @@
+##
+##  AIOStreams (stremio addon)
+##
+
+stremio.orcachill.in {
+	import error_pages
+
+	@root path /
+	redir @root "stremio://stremio.orcachill.in/manifest.json" 302
+
+	handle {
+		rewrite * /stremio/a2780b88-31a9-4dd9-acf4-dc5ca413fa66/eyJpIjoiVUZhWWgybm5OSmRtVDRKbDdCTjNWUT09IiwiZSI6ImZSbVd2NEc3bXh1dE1DRkt2KzlPV29IMCtTV3QvR01zQVoxUzFmTVZBOGtzSmkwdjc5TjlaWWxrZlp2V3J3d1VwTWJJank5NXEzbUlEbWNQMTVHbFVBMkc2SU9peDlPZWgvdlhhZC81WXU0YUFLYWNtQ2RqZi9IWERhYjdVVHc2dzg2MEZMT21qUmhTaHNscTJwclBVWkg3Sm0yTU4wVkdJcmh3bGZScERKYk5memcvNnNSbEdIYm52NU01VzlmeSIsInQiOiJhIn0{uri}
+		reverse_proxy orkid.network.orcachill.in:3600
+	}
+}
