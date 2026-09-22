@@ -1,7 +1,8 @@
 orcachill.in {
 	import desec
 	import error_pages
-	reverse_proxy luna.ntw.local:3002
+	root * /var/www/orcachill.in
+	file_server
 }
 
 ##
