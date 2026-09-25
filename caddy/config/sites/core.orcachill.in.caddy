@@ -6,6 +6,7 @@ static.orcachill.in {
 	import cors {header.origin}
 	import error_pages
 	root /var/www/static
+	try_files {path} {path}.html
 	file_server
 }
 
