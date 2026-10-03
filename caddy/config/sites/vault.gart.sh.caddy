@@ -1,0 +1,4 @@
+vault.gart.sh {
+	import cloudflare
+	reverse_proxy orkid.network.orcachill.in:4990
+}

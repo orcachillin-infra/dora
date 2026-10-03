@@ -1,0 +1,4 @@
+ntfy.gart.sh {
+	import cloudflare
+	reverse_proxy orkid.network.orcachill.in:8002
+}

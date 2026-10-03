@@ -3,7 +3,7 @@ thighhighs.gay {
 	import error_pages
 	root /var/www/thighhighs.gay/dist/client
 	file_server
-	reverse_proxy /.well-known/matrix/* amber.ntw.local:8448
+	reverse_proxy /.well-known/matrix/* orkid.network.orcachill.in:8448
 }
 
 matrix.thighhighs.gay {
@@ -12,7 +12,7 @@ matrix.thighhighs.gay {
 	request_body {
 		max_size 20MB
 	}
-	reverse_proxy amber.ntw.local:8448
+	reverse_proxy orkid.network.orcachill.in:8448
 }
 
 komodo.thighhighs.gay {

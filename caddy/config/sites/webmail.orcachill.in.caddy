@@ -1,0 +1,5 @@
+## MailFlow webmail on Orkid over NetBird; Caddy handles public HTTPS.
+webmail.orcachill.in {
+	import desec
+	reverse_proxy orkid.network.orcachill.in:3780
+}

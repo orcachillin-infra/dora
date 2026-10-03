@@ -1,0 +1,6 @@
+## Stalwart web UI, JMAP and discovery via Orkid over NetBird.
+## Mail protocol ports still connect directly to Orkid.
+mailbox.orcachill.in {
+	import desec
+	reverse_proxy orkid.network.orcachill.in:3808
+}
