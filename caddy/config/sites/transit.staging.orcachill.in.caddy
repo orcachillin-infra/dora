@@ -1,0 +1,8 @@
+##
+## Live Seattle (transit map) — staging
+##
+
+transit.staging.orcachill.in {
+	import error_pages
+	reverse_proxy shamu.network.orcachill.in:3456
+}
