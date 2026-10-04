@@ -1,0 +1,4 @@
+kasm.orcachill.in {
+	import error_pages
+	reverse_proxy kasm.host.internal:443
+}
