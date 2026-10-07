@@ -34,7 +34,11 @@ const projects: Project[] = [
 	},
 ];
 
-const contact = ["discord: burningcoals_", "tg: <hidden>", "email: <hidden>"];
+const contact = [
+	"discord: burningcoals_",
+	"email: ember@burningcoals.dev",
+	"tg: <hidden>",
+];
 
 export default function App() {
 	return (
