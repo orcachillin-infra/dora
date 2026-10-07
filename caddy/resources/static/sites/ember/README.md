@@ -15,8 +15,14 @@ black background, monospace, no borders, no rounded corners, all lowercase.
 ```sh
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # -> dist/
 npm run preview  # serve the build
+```
+
+to rebuild the committed `dist` in place — installs, builds, then removes
+`node_modules` again so the repo stays clean:
+
+```sh
+./build.sh
 ```
 
 ## editing content
@@ -28,5 +34,6 @@ plus the hero prose. everything renders lowercase via `text-transform` on
 there are currently no clickable links — nav labels and contact handles are
 plain text (`for now`).
 
-a fire particle background was prototyped in an earlier commit
-(`git show 20419f0:src/components/FireCanvas.tsx`) and removed for now.
+a fire particle background was prototyped early on and removed. the original
+project git history (including that commit) is preserved as a bundle outside
+this repo.
