@@ -1,0 +1,6 @@
+burningcoals.dev {
+	import cloudflare
+	import error_pages
+	root * /var/www/static/sites/ember/dist
+	file_server
+}

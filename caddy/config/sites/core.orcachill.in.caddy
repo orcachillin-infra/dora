@@ -6,8 +6,22 @@ static.orcachill.in {
 	import cors {header.origin}
 	import error_pages
 	root /var/www/static
-	try_files {path} {path}.html
-	file_server
+
+	# path-based static sites: /sites/<name> -> /sites/<name>/dist
+	@sites_root path_regexp ^/sites/[^/]+$
+	redir @sites_root {path}/ 308
+
+	@sites path_regexp site ^/sites/([^/]+)(?:/(.*))?$
+	handle @sites {
+		rewrite @sites /sites/{re.site.1}/dist/{re.site.2}
+		try_files {path} {path}.html
+		file_server
+	}
+
+	handle {
+		try_files {path} {path}.html
+		file_server
+	}
 }
 
 ## Netbird
