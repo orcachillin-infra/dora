@@ -1,0 +1,10 @@
+##
+## assets.burningcoals.dev — static game assets (migrated from assets.jpxs.io)
+##
+
+assets.burningcoals.dev {
+	import cloudflare
+	import error_pages
+	root * /var/www/assets
+	file_server browse
+}
