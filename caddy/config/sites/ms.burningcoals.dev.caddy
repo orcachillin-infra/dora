@@ -7,3 +7,15 @@ ms.burningcoals.dev {
 	import cloudflare
 	reverse_proxy orkid.network.orcachill.in:3011
 }
+
+# The game queries serverinfo.php over plain HTTP (port 80) and does not follow
+# redirects. Older builds also send a stale Host header, so answer for those too.
+http://ms.burningcoals.dev, http://ms.jpxs.io, http://www.crypticsea.com {
+	@serverinfo path /anewzero/serverinfo.php
+	handle @serverinfo {
+		reverse_proxy orkid.network.orcachill.in:3011
+	}
+	handle {
+		redir https://ms.burningcoals.dev{uri} permanent
+	}
+}
