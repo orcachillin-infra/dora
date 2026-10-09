@@ -1,0 +1,9 @@
+##
+## free-weekend (Sub Rosa masterserver) — web/panel on Orkid
+## game UDP (27591/27592/27597) terminates directly on Orkid, not here
+##
+
+ms.burningcoals.dev {
+	import cloudflare
+	reverse_proxy orkid.network.orcachill.in:3011
+}
