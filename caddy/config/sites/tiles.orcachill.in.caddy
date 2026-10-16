@@ -1,0 +1,8 @@
+##
+## Vector map tiles (protomaps, served from orkid) for the launcher map background
+##
+
+tiles.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:8090
+}
