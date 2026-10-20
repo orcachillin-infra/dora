@@ -5,5 +5,5 @@
 jpxs.burningcoals.dev {
 	import cloudflare
 	import error_pages
-	reverse_proxy orkid.network.orcachill.in:3033
+	reverse_proxy orkid.network.orcachill.in:3034
 }
