@@ -2,7 +2,7 @@ services:
   dashboard:
     image: docker.io/netbirdio/dashboard:v2.90.9@sha256:36d8def3f9aa34d986e234e8e2b262cebe8d025f3f8698482812f480cacfe106
     container_name: netbird-dashboard
-    restart: unless-stopped
+    restart: always
     security_opt:
       - no-new-privileges:true
     ports:
@@ -24,7 +24,7 @@ services:
   netbird-server:
     image: docker.io/netbirdio/netbird-server:0.76.0@sha256:3f08491f06864ba69bd6f596e99bb98647023b79edbcd0352ed928c899fd267a
     container_name: netbird-server
-    restart: unless-stopped
+    restart: always
     security_opt:
       - no-new-privileges:true
     environment:

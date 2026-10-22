@@ -2,7 +2,7 @@ services:
   kanidm:
     image: docker.io/kanidm/server:1.10.5@sha256:142f7d82b733ce68c6731fbf1258156fe4cb5f43ff3864e23e2126b484f85b9f
     container_name: kanidm
-    restart: unless-stopped
+    restart: always
     network_mode: host
     user: "982:982"
     read_only: true

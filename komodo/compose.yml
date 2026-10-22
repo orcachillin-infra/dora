@@ -4,7 +4,7 @@ services:
     labels:
       komodo.skip:
     command: --quiet --wiredTigerCacheSizeGB 0.25
-    restart: unless-stopped
+    restart: always
     volumes:
       - mongo-data:/data/db
       - mongo-config:/data/configdb
@@ -15,7 +15,7 @@ services:
   core:
     image: ghcr.io/moghtech/komodo-core:${COMPOSE_KOMODO_IMAGE_TAG:-2}
     init: true
-    restart: unless-stopped
+    restart: always
     depends_on:
       - mongo
     ports:
@@ -32,7 +32,7 @@ services:
   periphery:
     image: ghcr.io/moghtech/komodo-periphery:${COMPOSE_KOMODO_IMAGE_TAG:-2}
     init: true
-    restart: unless-stopped
+    restart: always
     depends_on:
       - core
     env_file: ./compose.env

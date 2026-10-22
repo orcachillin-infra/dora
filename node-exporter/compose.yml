@@ -7,6 +7,6 @@ services:
       - --web.listen-address=100.114.199.14:9100
     network_mode: host
     pid: host
-    restart: unless-stopped
+    restart: always
     volumes:
       - /:/host:ro,rslave
