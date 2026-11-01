@@ -19,7 +19,7 @@ grafana.orcachill.in {
 }
 panel.orcachill.in {
 	import error_pages
-	reverse_proxy 127.0.0.1:8080
+	reverse_proxy orkid.network.orcachill.in:8100
 }
 
 
