@@ -1,0 +1,11 @@
+## bin + ntfy (moved off gart.sh)
+
+bin.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:3009
+}
+
+ntfy.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:8002
+}
