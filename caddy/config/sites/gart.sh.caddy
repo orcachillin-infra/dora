@@ -1,0 +1,15 @@
+# gart.sh is retired -> redirect to the matching orcachill.in host
+#   gart.sh     -> orcachill.in
+#   foo.gart.sh -> foo.orcachill.in
+# bin.gart.sh / ntfy.gart.sh / vault.gart.sh have explicit site blocks
+# and take precedence over this wildcard.
+gart.sh {
+	import cloudflare
+	redir https://orcachill.in 302
+}
+
+*.gart.sh {
+	import cloudflare
+	@sub header_regexp sub Host ^(?P<name>.+)\.gart\.sh$
+	redir @sub https://{re.sub.name}.orcachill.in 302
+}
