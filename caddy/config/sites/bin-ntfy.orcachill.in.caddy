@@ -9,3 +9,9 @@ ntfy.orcachill.in {
 	import error_pages
 	reverse_proxy orkid.network.orcachill.in:8002
 }
+
+## vaultwarden (was vault.gart.sh)
+vaultwarden.orcachill.in {
+	import error_pages
+	reverse_proxy orkid.network.orcachill.in:4990
+}
