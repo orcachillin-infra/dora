@@ -11,6 +11,8 @@ Dora is the public ingress for the Pelican `luna` node, which sits on the home L
 
 Both Wings instances run with TLS off (the panel nodes have `behind_proxy` set), so Caddy terminates TLS and browsers get a valid certificate for the console websocket. The panel talks to the same hostnames.
 
+These names live under `console.orcachill.in`, which is a CNAME wildcard pointing at Dora. dora's usual `import desec` cannot be used for them, because the `_acme-challenge` TXT record under a CNAME wildcard is not in the desec zone. The certificates come from the default http-01 flow instead, so the site blocks carry no `tls` directive.
+
 ## Game ports and SFTP
 
 `pelican-luna-forward.service` runs `luna-forward.sh` once at boot. The script DNATs inbound traffic on dora's public address to luna over NetBird and masquerades it so return traffic comes back the same way:

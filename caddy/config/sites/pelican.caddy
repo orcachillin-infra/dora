@@ -1,13 +1,18 @@
 # Pelican Wings node APIs, proxied to each node over NetBird.
 # Wings runs with TLS off (behind_proxy in the panel); TLS terminates here so
 # browsers get a valid cert for the console websocket.
+#
+# dora's own DNS challenge token cannot be used for these names: console.orcachill.in
+# is a CNAME wildcard, so the _acme-challenge TXT under it is not ours to set.
+# Certificates come from the default http-01 flow instead, which is why there is
+# no "import desec" here.
 
 orkid.console.orcachill.in:8095 {
-	import desec
+	import error_pages
 	reverse_proxy orkid.network.orcachill.in:8095
 }
 
 luna.console.orcachill.in:8095 {
-	import desec
+	import error_pages
 	reverse_proxy luna.network.orcachill.in:8095
 }
