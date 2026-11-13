@@ -29,3 +29,7 @@ systemctl enable --now pelican-luna-forward
 ```
 
 The `orkid` node needs none of this: it has a public address, so its game ports and SFTP are bound directly.
+
+## Allocations on luna
+
+Wings binds game ports on the allocation's `ip`, so that address has to exist on the node. Luna's allocations use `0.0.0.0` with `ip_alias` set to Dora's public address: Wings then binds every interface, and the panel still shows users the Dora address to connect to. An allocation whose `ip` is Dora's address makes every server on luna fail at boot with `cannot assign requested address`.
