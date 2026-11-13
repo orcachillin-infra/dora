@@ -2,12 +2,12 @@
 # Wings runs with TLS off (behind_proxy in the panel); TLS terminates here so
 # browsers get a valid cert for the console websocket.
 
-wings.orcachill.in:8095 {
+orkid.console.orcachill.in:8095 {
 	import desec
 	reverse_proxy orkid.network.orcachill.in:8095
 }
 
-wings-luna.orcachill.in:8095 {
+luna.console.orcachill.in:8095 {
 	import desec
 	reverse_proxy luna.network.orcachill.in:8095
 }
