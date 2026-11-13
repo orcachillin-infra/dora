@@ -1,0 +1,13 @@
+[Unit]
+Description=Pelican luna node forwarding (Dora -> Luna over NetBird)
+Documentation=https://panel.orcachill.in
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh /etc/komodo/repos/infra-dora/pelican-forward/luna-forward.sh
+
+[Install]
+WantedBy=multi-user.target
