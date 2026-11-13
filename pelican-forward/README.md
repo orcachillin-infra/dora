@@ -7,7 +7,7 @@ Dora is the public ingress for the Pelican `luna` node, which sits on the home L
 `caddy/config/sites/pelican.caddy` publishes two hostnames on port 8095:
 
 - `wings.orcachill.in` → `orkid.network.orcachill.in:8095`
-- `wings-luna.orcachill.in` → `luna-246-44.network.orcachill.in:8095`
+- `wings-luna.orcachill.in` → `luna.network.orcachill.in:8095`
 
 Both Wings instances run with TLS off (the panel nodes have `behind_proxy` set), so Caddy terminates TLS and browsers get a valid certificate for the console websocket. The panel talks to the same hostnames.
 

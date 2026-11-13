@@ -9,5 +9,5 @@ wings.orcachill.in:8095 {
 
 wings-luna.orcachill.in:8095 {
 	import desec
-	reverse_proxy luna-246-44.network.orcachill.in:8095
+	reverse_proxy luna.network.orcachill.in:8095
 }
