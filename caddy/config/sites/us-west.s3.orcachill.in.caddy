@@ -1,0 +1,13 @@
+# S3 API for the crashy MinIO instance. No error_pages here: S3 clients expect
+# XML error bodies, and the html interceptor would replace them.
+#
+# No "import desec" either. *.orcachill.in is a wildcard CNAME on dora, so the
+# _acme-challenge TXT under this name is not ours to write; the cert comes from
+# the default http-01 flow.
+us-west.s3.orcachill.in {
+	# Crash logs are text, but a zip of logs from Not Enough Crashes also lands here.
+	request_body {
+		max_size 50MB
+	}
+	reverse_proxy orkid.network.orcachill.in:9000
+}
