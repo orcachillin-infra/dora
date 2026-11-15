@@ -54,9 +54,31 @@ Kanidm clients currently in use:
 
 Kanidm issues per-client issuers (`https://auth.orcachill.in/oauth2/openid/<client>`); Authentik issues per-application ones (`https://auth.orcachill.in/application/o/<slug>/`). The shapes are close, so each app change is a provider slug plus client id and secret.
 
+## Migration state
+
+All providers are `confidential`, `per_provider` issuer, `sub_mode=hashed_user_id`, `include_claims_in_id_token`, with `default-provider-authorization-implicit-consent` (no consent screen, same as Kanidm) and scopes `openid`, `email`, `profile`. Every application is bound to the `users` group with `policy_engine_mode=any`.
+
+The `groups` claim comes from the default `profile` scope mapping, which returns `request.user.groups.all()` names. Nothing extra was needed for the `authentik Admins` mapping in Forgejo.
+
+| Application | Client ID | Redirect URI | Config location | State |
+| --- | --- | --- | --- | --- |
+| `tidarr` | `kKY9tynS2sCPosOrwjCeAXQwZFaJLRUVbsquZMeO` | `https://tidarr.orcachill.in/api/auth/oidc/callback` | `~/server/.env` on Shamu | migrated and working |
+| `forgejo` | `forgejo` | `https://git.orcachill.in/user/oauth2/authentik/callback` | `login_source` table in `/var/lib/forgejo/forgejo.db` | wired, first login pending |
+| `komodo` | `komodo` | `https://komodo.orcachill.in/auth/oidc/callback` | `/root/komodo/compose.env` + `/root/komodo/secrets/komodo-oidc-client-secret` | wired, first login pending |
+| `netbird` | `netbird` | `https://network.orcachill.in/oauth2/callback` | `connector` table in `/var/lib/netbird/data/idp.db` | wired, first login pending |
+| `jellyfin` | - | - | Jellyfin SSO plugin config on Shamu | not started |
+
+Notes from the migration, in the order they bit:
+
+- Forgejo's login source name is part of the redirect URI (`/user/oauth2/<name>/callback`). The source was renamed `kanidm` to `authentik`, so the provider redirect URI has to match exactly.
+- Forgejo only requests `openid` by default. Without `--scopes openid --scopes email --scopes profile` an OIDC login has no email claim and the account cannot be created. The source cache also needs a container restart before the new scopes show up in the authorize URL.
+- Komodo reads OIDC from env vars, but it is deployed from `/root/komodo`, not from this repo, and `docker compose` there needs `--env-file compose.env` or the `${...}` substitutions fail and nothing is recreated.
+- NetBird federates through its own embedded IdP. The upstream connector row lives in `idp.db` (table `connector`, type `oidc`) and is written with the management server stopped. Local email and password login stays enabled as break-glass, and `extra_user_approval_required` is on, so a first login creates an identity that needs approving.
+- The `authentik/media` directory is mounted but was owned by root while the server runs as `1000:1000`. It is chowned now; without that, media uploads fail.
+
 ## Cutover
 
-1. Recreate all five providers in Authentik on `id.orcachill.in` and register each redirect URI against the staging host.
+1. Confirm all apps log in against `id.orcachill.in`. Jellyfin is still outstanding.
 2. Repoint the apps one at a time and confirm login and group mapping, starting with the lowest-risk client.
 3. Move the Caddy route: `id.orcachill.in` becomes `auth.orcachill.in` and the Kanidm site block goes away.
 4. Update every provider and app to the `auth.orcachill.in` issuer.
