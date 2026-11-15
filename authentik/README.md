@@ -11,6 +11,8 @@ The listener is bound to `127.0.0.1:9000`. Caddy is the only public entry point,
 - `server` - HTTP and API on `127.0.0.1:9000`.
 - `worker` - background tasks.
 
+Login was verified end to end against `/api/v3/flows/executor/default-authentication-flow/` after the bootstrap rebuild: identification, password stage, redirect, then `/api/v3/core/users/me/` returning `akadmin` as superuser with the `authentik Admins` group. Note the flow executor only accepts `application/json`, not form posts.
+
 ## Host quirk: no-new-privileges is off for this stack
 
 Dora runs podman 5.7 / crun 1.21 / containers-common 0.66.0 behind the docker shim. The generated `containers-default-0.66.0` AppArmor profile denies signals from a container process to peers in the `&crun` child profile whenever `no-new-privileges` is set. It showed up two ways while bringing this stack up:
@@ -26,13 +28,13 @@ Dora runs podman 5.7 / crun 1.21 / containers-common 0.66.0 behind the docker sh
 
 ## Bootstrap
 
-`akadmin` is created by the first bootstrap with an unusable password. Reset it without a TTY:
+`AUTHENTIK_BOOTSTRAP_PASSWORD` in `.env` drives the documented bootstrap: on first start the `system/bootstrap.yaml` blueprint creates `akadmin`, creates the `authentik Admins` group, puts `akadmin` in it, and sets the tenant's `setup` flag.
 
-```bash
-printf "%s\n%s\n" "$PW" "$PW" | docker exec -i authentik-server ak changepassword akadmin
-```
+Do not set the admin password with `ak changepassword` instead. There is no `is_superuser` column on users in 2026.8 (it is RBAC), so an `akadmin` with a working password but no group membership can log in and do nothing, and the `setup` flag stays false, which makes `/` redirect to `/setup` while `/setup` 500s because the setup flow is no longer applicable once the admin has a usable password. The stack was rebuilt from an empty database once to get out of that state.
 
-The current password is in `/root/authentik-akadmin-recovery.txt` on Dora. Move it into the password manager and delete the file, the same convention as the Kanidm recovery files.
+The current admin password is in `/root/authentik-akadmin-recovery.txt` on Dora. Move it into the password manager and delete the file, the same convention as the Kanidm recovery files. Changing the password in the UI leaves the env var stale; the blueprint only applies while `setup` is false.
+
+`AUTHENTIK_BOOTSTRAP_EMAIL` is unset, so the admin email is the blueprint default `root@example.com`.
 
 The default brand is `authentik-default` with the title `authentik`, which means "answer on whatever host the request arrives on". Rename it when the UI is branded for `auth.orcachill.in`.
 
