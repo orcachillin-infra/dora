@@ -1,0 +1,8 @@
+##
+## Authentik - staged replacement for Kanidm on auth.orcachill.in
+##
+
+id.orcachill.in {
+	import error_pages
+	reverse_proxy 127.0.0.1:9000
+}

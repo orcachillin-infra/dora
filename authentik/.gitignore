@@ -1,0 +1,4 @@
+authentik.env
+.env
+media/
+certs/

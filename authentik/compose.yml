@@ -1,0 +1,94 @@
+# NOTE: no-new-privileges is deliberately omitted for this stack.
+# On this host (podman 5.7 / crun 1.21 / containers-common 0.66.0) the generated
+# apparmor profile "containers-default-0.66.0" denies signals from a container
+# process to peers in the "&crun" child profile whenever no-new-privileges is
+# set. That breaks postgres (gosu spins in Setgid, then the postmaster cannot
+# signal its own children: "could not signal for checkpoint: Permission denied")
+# and it breaks anything that manages forked children, which is the whole of
+# authentik. Verified working without the flag, with the default apparmor
+# profile kept in place. infisical-db runs unconfined by that flag for the same
+# reason. Revisit once containers-common/podman is updated.
+
+services:
+  postgresql:
+    image: docker.io/library/postgres:17-alpine@sha256:005c5c37db96c1e6652a79ea31f9886402fba81ac95dc2db897739121dd7f8f2
+    container_name: authentik-postgresql
+    restart: always
+    # runs directly as the image postgres uid (70): the gosu privilege drop in
+    # the entrypoint spins forever under no-new-privileges on this host
+    user: "70:70"
+    init: true
+    command:
+      - postgres
+      - -c
+      - shared_buffers=128MB
+      - -c
+      - max_connections=60
+    environment:
+      POSTGRES_DB: authentik
+      POSTGRES_USER: authentik
+      POSTGRES_PASSWORD: ${PG_PASS:?PG_PASS missing from authentik.env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U authentik -d authentik"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: docker.io/library/redis:7.4-alpine@sha256:7f7d30b7fdd09467bac58198a1f166dd69789d348d4fe859cccb20e0cf287fbe
+    container_name: authentik-redis
+    restart: always
+    command:
+      - redis-server
+      - --save
+      - ""
+      - --appendonly
+      - "no"
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep -q PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  server:
+    image: ghcr.io/goauthentik/server:2026.8.5@sha256:602227a86455d6772e3d16b7d852713c4f864f40df5df894abd1285bb53979a5
+    container_name: authentik-server
+    restart: always
+    command: server
+    env_file: ./.env
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - ./media:/media
+      - ./certs:/certs:ro
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "ak", "healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 180s
+
+  worker:
+    image: ghcr.io/goauthentik/server:2026.8.5@sha256:602227a86455d6772e3d16b7d852713c4f864f40df5df894abd1285bb53979a5
+    container_name: authentik-worker
+    restart: always
+    command: worker
+    env_file: ./.env
+    volumes:
+      - ./media:/media
+      - ./certs:/certs:ro
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
