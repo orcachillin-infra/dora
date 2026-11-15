@@ -104,3 +104,33 @@ Four separate faults came out of this, all of them Stalwart-side rather than aut
 - The UI signs in as an OAuth client of Stalwart itself. `x:Application.oauthClientId` was null, which is the empty `<meta name="oauth-client-id">` in the served HTML. Client `webui` was created with `redirectUris` as a url-to-bool map (the undocumented part: a list or a nested object is rejected) and the application pointed at it. A restart is required before the meta tag picks it up.
 - `STALWART_RECOVERY_MODE` disables the mail listeners entirely (25/465/587/993) and cannot complete the UI's OAuth flow (`Unknown resource indicator`). Use it for API work only, and treat it as mail downtime.
 - Orkid has global IPv6 addresses but no IPv6 default route, so anything resolving AAAA-first fails to connect. `/etc/gai.conf` now carries `precedence ::ffff:0:0/96 100`.
+
+## Enrollment / onboarding flow
+
+`onboard` is an invitation-gated enrollment flow (`designation: enrollment`, `authentication: none`, title "Enroll your account"):
+
+| order | stage | notes |
+| --- | --- | --- |
+| 10 | `enrollment-invitation` | requires a valid `itoken`, rejects the flow without one |
+| 20 | `enrollment-prompt` | `username`, `email`, `password`, `name` prompt fields |
+| 30 | `enrollment-write` | creates the user with `create_users_as: internal` and `create_users_group: users` |
+| 40 | `enrollment-email-verification` | `email/account_confirmation.html`, `token_expiry: minutes=30`, uses global SMTP settings |
+| 50 | `enrollment-login` | logs the new account in |
+
+Two things that are easy to get wrong when rebuilding this:
+
+- the password must be a **prompt field of type `password`**, not a Password stage. A Password stage authenticates an existing account, so in an enrollment flow it fails every backend and the plan ends on `ak-stage-access-denied` with `error_message: "Unknown error"`.
+- the email stage has to come **after** the user-write stage. Before it there is no account for the confirmation token, which fails the same way.
+- the `default-password-change-password-policy` is attached to the prompt stage's `validation_policies`, otherwise weak passwords are accepted silently.
+
+Invite someone:
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+  -d '{"name":"alice","flow":"aa3fa7e6-0f5f-4057-9289-87f07b3c1a4e","single_use":true,"expires":null}' \
+  https://id.orcachill.in/api/v3/stages/invitation/invitations/
+```
+
+then send them `https://id.orcachill.in/if/flow/onboard/?itoken=<invitation.pk>`. The same thing exists in the UI under Directory → Invitations.
+
+Note that `users` is the group every application is bound to, so enrollment grants access to all of them at once. Someone who should only get one app needs a policy binding on the others.
