@@ -85,3 +85,22 @@ Notes from the migration, in the order they bit:
 5. Stop the Kanidm container. Keep `/var/lib/kanidm/db` for one backup cycle before deleting it.
 
 Rollback is one line: keep the Kanidm Caddy route and point it back.
+
+## Email
+
+`AUTHENTIK_EMAIL__*` in `.env` submits through Stalwart on Orkid. This is what makes invitations and password resets work.
+
+- host `mail.orcachill.in`, port `587`, `USE_TLS=true` (STARTTLS)
+- the SMTP username must be the full address `authentik@orcachill.in`. Stalwart returns `535 5.7.8` for the bare account name `authentik`
+- the mailbox was created over Stalwart's JMAP registry API (`x:Account/set`, then a second `set` for `credentials` because the password cannot be set at creation). Stalwart is the source of truth here, not a file in this repo
+- submission is reached over NetBird. Orkid's `inet mail_staging` output chain allows the stalwart uid egress only to the relay ports, and the TLS certificate covers `mail.orcachill.in` rather than the NetBird IP, so `compose.yml` carries `extra_hosts: mail.orcachill.in:100.114.67.239` for `server` and `worker`. Without it the containers resolve the public address, where 587 is dropped
+- verified by calling Django's `send_mail` inside the server container, which is the same code path the UI uses. There is no `ak` test-email command
+
+## Stalwart notes from the migration
+
+Four separate faults came out of this, all of them Stalwart-side rather than authentik-side:
+
+- Stalwart downloads its web UI bundle from GitHub on every startup. That uid cannot reach GitHub, so the bundle was never installed and `/admin`, `/account` and `/ui` all returned 404 — only the OAuth `/login` page worked, and it complains about a missing `redirect_uri` when opened directly. Fixed with a temporary 443 allow for uid 995, then the rule was removed again; the bundle stays cached.
+- The UI signs in as an OAuth client of Stalwart itself. `x:Application.oauthClientId` was null, which is the empty `<meta name="oauth-client-id">` in the served HTML. Client `webui` was created with `redirectUris` as a url-to-bool map (the undocumented part: a list or a nested object is rejected) and the application pointed at it. A restart is required before the meta tag picks it up.
+- `STALWART_RECOVERY_MODE` disables the mail listeners entirely (25/465/587/993) and cannot complete the UI's OAuth flow (`Unknown resource indicator`). Use it for API work only, and treat it as mail downtime.
+- Orkid has global IPv6 addresses but no IPv6 default route, so anything resolving AAAA-first fails to connect. `/etc/gai.conf` now carries `precedence ::ffff:0:0/96 100`.

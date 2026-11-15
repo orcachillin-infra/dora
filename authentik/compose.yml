@@ -58,6 +58,10 @@ services:
     restart: always
     command: server
     env_file: ./.env
+    # public 587 on orkid is rejected by nftables; submission is reached over netbird,
+    # and the TLS certificate covers the hostname rather than the netbird IP
+    extra_hosts:
+      - "mail.orcachill.in:100.114.67.239"
     ports:
       - "127.0.0.1:9000:9000"
     volumes:
@@ -81,6 +85,10 @@ services:
     restart: always
     command: worker
     env_file: ./.env
+    # public 587 on orkid is rejected by nftables; submission is reached over netbird,
+    # and the TLS certificate covers the hostname rather than the netbird IP
+    extra_hosts:
+      - "mail.orcachill.in:100.114.67.239"
     volumes:
       - ./media:/media
       - ./certs:/certs:ro
