@@ -29,7 +29,7 @@ panel.orcachill.in {
 
 ha.orcachill.in {
 	import error_pages
-	reverse_proxy ha.host.internal:8123
+	reverse_proxy ha.internal:8123
 }
 
 # tasks.orcachill.in {

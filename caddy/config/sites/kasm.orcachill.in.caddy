@@ -1,0 +1,8 @@
+kasm.orcachill.in {
+	import error_pages
+	reverse_proxy https://kasm.host.internal:443 {
+		transport http {
+			tls_insecure_skip_verify
+		}
+	}
+}

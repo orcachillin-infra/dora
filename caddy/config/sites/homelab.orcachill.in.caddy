@@ -1,4 +1,1 @@
-kasm.orcachill.in {
-	import error_pages
-	reverse_proxy kasm.host.internal:443
-}
+# kasm moved to kasm.orcachill.in.caddy
