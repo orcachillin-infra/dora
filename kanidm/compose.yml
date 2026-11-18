@@ -1,6 +1,6 @@
 services:
   kanidm:
-    image: docker.io/kanidm/server:1.10.5@sha256:142f7d82b733ce68c6731fbf1258156fe4cb5f43ff3864e23e2126b484f85b9f
+    image: docker.io/kanidm/server:1.12.1@sha256:77198131f28116203e105d2e42214203757d113a694f35de545669e75db5c96f
     container_name: kanidm
     restart: always
     network_mode: host
