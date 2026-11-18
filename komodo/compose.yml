@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: mongo
+    image: docker.io/library/mongo:8.2@sha256:e0ce8c35124d4a9f9785532d1f268f39e9728ffa1cb38f46fa482436424c4bd3
     labels:
       komodo.skip:
     command: --quiet --wiredTigerCacheSizeGB 0.25
@@ -13,7 +13,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${KOMODO_DATABASE_PASSWORD}
 
   core:
-    image: ghcr.io/moghtech/komodo-core:${COMPOSE_KOMODO_IMAGE_TAG:-2}
+    image: ghcr.io/moghtech/komodo-core:2.3.4@sha256:91b2afd7b3bb2abea0ebd3046d65ec457eb1f3d505868d1d60cb0f8562490ef9
     init: true
     restart: always
     depends_on:
@@ -30,7 +30,7 @@ services:
       - /var/lib/infisical-agent/rendered/komodo/core.config.toml:/config/config.toml:ro
 
   periphery:
-    image: ghcr.io/moghtech/komodo-periphery:${COMPOSE_KOMODO_IMAGE_TAG:-2}
+    image: ghcr.io/moghtech/komodo-periphery:2.3.4@sha256:fb4b52961fcce7a31e3776930e422967b6640f653de876f59f26dea243e29beb
     init: true
     restart: always
     depends_on:
