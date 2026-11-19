@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>homelab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>homelab</h1>
+  <p class="summary" id="summary">probe pending</p>
+  <input id="filter" type="search" placeholder="filter" autocomplete="off" spellcheck="false">
+</header>
+
+<section class="hosts" id="hosts"></section>
+<main id="groups"></main>
+
+<footer>
+  <p id="legend">
+    <span class="m up"></span> up
+    <span class="m odd"></span> odd response
+    <span class="m degraded"></span> 5xx
+    <span class="m down"></span> no response
+  </p>
+  <p class="dim" id="stamp"></p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

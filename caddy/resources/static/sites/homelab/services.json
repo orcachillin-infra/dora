@@ -1,0 +1,63 @@
+{
+  "hosts": ["dora", "orkid", "nukka", "kasatka", "shamu", "sakari", "kalia", "katenka", "lily"],
+  "groups": [
+    {
+      "name": "media",
+      "services": [
+        { "name": "jellyfin", "url": "https://stream.orcachill.in", "host": "shamu" },
+        { "name": "plex", "url": "https://plex.orcachill.in", "host": "shamu" },
+        { "name": "navidrome", "url": "https://music.orcachill.in", "host": "shamu" },
+        { "name": "stremio addon", "url": "https://stremio.orcachill.in", "host": "orkid", "note": "aiostreams, redirects to a stremio url" },
+        { "name": "immich", "url": "https://photos.orcachill.in", "host": "shamu" },
+        { "name": "copyparty", "url": "https://local-nas.orcachill.in", "host": "shamu", "note": "file share" }
+      ]
+    },
+    {
+      "name": "arr stack",
+      "services": [
+        { "name": "seerr", "url": "https://catalog.orcachill.in", "host": "shamu" },
+        { "name": "radarr", "url": "https://movies.orcachill.in", "host": "shamu" },
+        { "name": "sonarr", "url": "https://tv.orcachill.in", "host": "shamu" },
+        { "name": "sonarr-anime", "url": "https://anime.orcachill.in", "host": "shamu" },
+        { "name": "tidarr", "url": "https://tidarr.orcachill.in", "host": "shamu" },
+        { "name": "prowlarr", "url": "https://prowlarr.orcachill.in", "host": "orkid" },
+        { "name": "rdtclient", "url": "https://torrent.orcachill.in", "host": "shamu" }
+      ]
+    },
+    {
+      "name": "core",
+      "services": [
+        { "name": "kanidm", "url": "https://auth.orcachill.in", "host": "dora", "note": "identity, being replaced by authentik" },
+        { "name": "authentik", "url": "https://id.orcachill.in", "host": "dora" },
+        { "name": "komodo", "url": "https://komodo.orcachill.in", "host": "dora" },
+        { "name": "netbird", "url": "https://network.orcachill.in", "host": "dora", "note": "control plane + dashboard" },
+        { "name": "infisical", "url": "https://vault.orcachill.in", "host": "dora" },
+        { "name": "backrest", "url": "https://backups.orcachill.in", "host": "dora", "note": "restic ui, running on orkid" },
+        { "name": "grafana", "url": "https://grafana.orcachill.in", "host": "orkid" },
+        { "name": "prometheus", "url": "https://prometheus.orcachill.in", "host": "orkid" }
+      ]
+    },
+    {
+      "name": "cloud",
+      "services": [
+        { "name": "forgejo", "url": "https://git.orcachill.in", "host": "orkid" },
+        { "name": "stalwart", "url": "https://mailbox.orcachill.in", "host": "orkid", "note": "mail server, ui only" },
+        { "name": "mailflow", "url": "https://webmail.orcachill.in", "host": "orkid", "note": "webmail" },
+        { "name": "radicale", "url": "https://calendar.orcachill.in", "host": "orkid", "note": "caldav/carddav" },
+        { "name": "ntfy", "url": "https://ntfy.orcachill.in", "host": "orkid" },
+        { "name": "vaultwarden", "url": "https://vaultwarden.orcachill.in", "host": "orkid" },
+        { "name": "minio", "url": "https://us-west.s3.orcachill.in", "host": "orkid", "note": "s3 api, xml errors" },
+        { "name": "pelican", "url": "https://panel.orcachill.in", "host": "orkid" },
+        { "name": "protomaps", "url": "https://tiles.orcachill.in", "host": "orkid", "note": "vector tiles" },
+        { "name": "matrix", "url": "https://matrix.thighhighs.gay", "host": "orkid" }
+      ]
+    },
+    {
+      "name": "home",
+      "services": [
+        { "name": "home assistant", "url": "https://ha.orcachill.in", "host": "kasatka" },
+        { "name": "opnsense", "url": null, "host": "lily", "note": "lan only, no public route" }
+      ]
+    }
+  ]
+}

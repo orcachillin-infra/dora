@@ -1,0 +1,7 @@
+[Unit]
+Description=probe the homelab catalog for the homepage
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /etc/komodo/repos/infra-dora/caddy/resources/static/sites/homelab/probe.py
